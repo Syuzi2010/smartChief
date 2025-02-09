@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="ingredientsInput" type="id" />
+    <item name="user_details" type="id" />
+    <item name="findDishesButton" type="id" />
+    <item name="resultTextView" type="id" />
+    <item name="logout" type="id" />
+    <item name="userEmailTextView" type="id" />
+</resources>
