@@ -6,13 +6,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:gravity="center"
     android:padding="16dp">
+    <TextView
+        android:id="@+id/user_details"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="16dp"
+        />
+
 
     <EditText
         android:id="@+id/ingredientsInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter ingredients (comma-separated)"
+        android:hint="Enter ingredients"
         android:inputType="text"
         android:minHeight="48dp"
         android:padding="12dp" />
@@ -29,4 +37,13 @@
         android:layout_height="wrap_content"
         android:paddingTop="16dp"
         android:text="Matching dishes will appear here" />
+
+    <Button
+        android:id="@+id/logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:gravity="clip_horizontal"
+        android:text="@string/logout" />
+
 </LinearLayout>
