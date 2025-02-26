@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "676991033760",
+    "project_id": "smartchief-257a3",
+    "storage_bucket": "smartchief-257a3.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:676991033760:android:aa48682cdc665ab33204c5",
+        "android_client_info": {
+          "package_name": "com.example.smartchief"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDsdAJLRrwhSwxaGgDB9ng4lDdi8lmC1Ys"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -14,7 +14,12 @@
         android:layout_height="wrap_content"
         android:paddingTop="16dp"
         />
-
+    <LinearLayout
+        android:id="@+id/ingredientsContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="16dp" />
 
     <EditText
         android:id="@+id/ingredientsInput"
