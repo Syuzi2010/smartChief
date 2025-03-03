@@ -21,14 +21,37 @@
         android:orientation="vertical"
         android:paddingTop="16dp" />
 
-    <EditText
-        android:id="@+id/ingredientsInput"
+<!--    <EditText-->
+<!--        android:id="@+id/ingredientsInput"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:hint="Enter ingredients"-->
+<!--        android:inputType="text"-->
+<!--        android:minHeight="48dp"-->
+<!--        android:padding="12dp" />-->
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter ingredients"
-        android:inputType="text"
-        android:minHeight="48dp"
-        android:padding="12dp" />
+        android:paddingBottom="8dp">
+
+        <EditText
+            android:id="@+id/ingredientsInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter ingredients"
+            android:inputType="text"
+            android:minHeight="48dp"
+            android:padding="12dp"
+            android:layout_marginEnd="50dp" />
+
+        <ImageButton
+            android:id="@+id/btnCamera"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:contentDescription="Open Camera"/>
+    </RelativeLayout>
 
     <Button
         android:id="@+id/findDishesButton"
