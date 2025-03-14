@@ -1,77 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
-<LinearLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:padding="16dp">
-    <TextView
-        android:id="@+id/user_details"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="16dp"
-        />
+    android:fillViewport="true">
+
     <LinearLayout
-        android:id="@+id/ingredientsContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingTop="16dp" />
+        android:gravity="center"
+        android:padding="16dp">
 
-<!--    <EditText-->
-<!--        android:id="@+id/ingredientsInput"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:hint="Enter ingredients"-->
-<!--        android:inputType="text"-->
-<!--        android:minHeight="48dp"-->
-<!--        android:padding="12dp" />-->
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="8dp">
-
-        <EditText
-            android:id="@+id/ingredientsInput"
+        <!-- User Details -->
+        <TextView
+            android:id="@+id/user_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter ingredients"
-            android:inputType="text"
-            android:minHeight="48dp"
-            android:padding="12dp"
-            android:layout_marginEnd="50dp" />
+            android:paddingTop="16dp" />
 
-        <ImageButton
-            android:id="@+id/btnCamera"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:contentDescription="Open Camera"/>
-    </RelativeLayout>
+        <!-- Ingredients Container -->
+        <LinearLayout
+            android:id="@+id/ingredientsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="16dp" />
 
-    <Button
-        android:id="@+id/findDishesButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Find Dishes" />
+        <!-- Ingredients Input and Camera Button -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="8dp">
 
-    <TextView
-        android:id="@+id/resultTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="16dp"
-        android:text="Matching dishes will appear here" />
+            <EditText
+                android:id="@+id/ingredientsInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter ingredients"
+                android:inputType="text"
+                android:minHeight="48dp"
+                android:padding="12dp"
+                android:layout_marginEnd="50dp" />
 
-    <Button
-        android:id="@+id/logout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:gravity="clip_horizontal"
-        android:text="@string/logout" />
+            <ImageButton
+                android:id="@+id/btnCamera"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:contentDescription="Open Camera" />
+        </RelativeLayout>
 
-</LinearLayout>
+        <!-- Find Dishes Button -->
+        <Button
+            android:id="@+id/findDishesButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Find Dishes" />
+
+        <!-- Results TextView -->
+        <TextView
+            android:id="@+id/resultTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="16dp"
+            android:text="Matching dishes will appear here" />
+
+        <!-- Logout Button -->
+        <Button
+            android:id="@+id/logout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:gravity="clip_horizontal"
+            android:text="@string/logout" />
+
+    </LinearLayout>
+</ScrollView>
