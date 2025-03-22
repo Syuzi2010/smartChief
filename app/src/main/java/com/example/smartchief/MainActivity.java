@@ -128,9 +128,10 @@ public class MainActivity extends AppCompatActivity {
     private void findMatchingDishes() {
         List<Recipe> matches = new ArrayList<>();
         for (Recipe recipe : recipes) {
-            if (userIngredients.containsAll(recipe.getIngredients())) {
+            if (userIngredients.containsAll(recipe.getKey_ingredients())) {
                 matches.add(recipe);
             }
+
         }
 
         if (matches.isEmpty()) {
