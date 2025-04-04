@@ -1,5 +1,11 @@
 package com.example.smartchief;
 
+import android.graphics.Bitmap;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import java.util.ArrayList;
+import java.util.List;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -100,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {
                 Log.e("FIREBASE", "Error: " + error.getMessage());
                 resultTextView.setText("Error loading recipes");
+               // System.out.println("dnbpiSUBIFBDSIPU"+error.getMessage());
             }
         });
     }
@@ -191,7 +198,40 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            // Handle image capture
+            Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
+
+            // Show loading state
+            resultTextView.setText("Analyzing food...");
+            btnCamera.setEnabled(false);
+
+            ClarifaiHelper.recognizeFood(imageBitmap, new ClarifaiHelper.ClarifaiCallback() {
+                @Override
+                public void onSuccess(List<String> ingredients) {
+                    runOnUiThread(() -> {
+                        btnCamera.setEnabled(true);
+                        if (ingredients.isEmpty()) {
+                            resultTextView.setText("No food items detected");
+                            return;
+                        }
+
+                        for (String ingredient : ingredients) {
+                            if (!userIngredients.contains(ingredient)) {
+                                addIngredient(ingredient);
+                            }
+                        }
+                        resultTextView.setText("Added ingredients from photo!");
+                    });
+                }
+
+                @Override
+                public void onFailure(Exception e) {
+                    runOnUiThread(() -> {
+                        btnCamera.setEnabled(true);
+                        resultTextView.setText("Error: " + e.getMessage());
+
+                    });
+                }
+            });
         }
     }
 
@@ -229,4 +269,5 @@ public class MainActivity extends AppCompatActivity {
         public List<String> getKey_ingredients() { return key_ingredients; }
         public void setKey_ingredients(List<String> key_ingredients) { this.key_ingredients = key_ingredients; }
     }
+
 }
