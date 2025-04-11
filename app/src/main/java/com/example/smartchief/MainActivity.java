@@ -27,6 +27,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import android.text.Html;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -132,13 +133,12 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void findMatchingDishes() {
+   private void findMatchingDishes() {
         List<Recipe> matches = new ArrayList<>();
         for (Recipe recipe : recipes) {
             if (userIngredients.containsAll(recipe.getKey_ingredients())) {
                 matches.add(recipe);
             }
-
         }
 
         if (matches.isEmpty()) {
@@ -146,25 +146,37 @@ public class MainActivity extends AppCompatActivity {
         } else {
             StringBuilder sb = new StringBuilder();
             for (Recipe recipe : matches) {
-                sb.append("🍲 Dish: ").append(recipe.getName()).append("\n")
-                        .append("ingridients ").append(recipe.getIngredients()).append("\n")
-                        .append("🥑 Dietary Info: ").append(recipe.getDietary_info()).append("\n")
-                        .append("🔥 Calories: ").append(recipe.getCalories_per_serving()).append("\n")
-                        .append("\n👩🍳 How to make:\n");
+                sb.append("🍲 Dish: ").append(recipe.getName()).append("<br>")
+                        .append("Ingredients: ");
 
-                // Add numbered recipe steps
+                // Check and color missing ingredients
+                for (String ingredient : recipe.getIngredients()) {
+                    if (userIngredients.contains(ingredient.toLowerCase())) {
+                        sb.append(ingredient).append(", ");
+                    } else {
+                        sb.append("<font color='#FF0000'>").append(ingredient).append("</font>, ");
+                    }
+                }
+
+                sb.append("<br>")
+                        .append("🥑 Dietary Info: ").append(recipe.getDietary_info()).append("<br>")
+                        .append("🔥 Calories: ").append(recipe.getCalories_per_serving()).append("<br>")
+                        .append("<br>👩🍳 How to make:<br>");
+
                 List<String> steps = recipe.getRecipe_steps();
                 if (steps != null) {
                     int stepNumber = 1;
                     for (String step : steps) {
-                        sb.append(stepNumber++).append(". ").append(step).append("\n");
+                        sb.append(stepNumber++).append(". ").append(step).append("<br>");
                     }
                 }
-                sb.append("\n\n");
+                sb.append("<br><br>");
             }
-            resultTextView.setText(sb.toString());
+
+            resultTextView.setText(Html.fromHtml(sb.toString()));
         }
     }
+
 
     private void addIngredient(String ingredient) {
         userIngredients.add(ingredient);
