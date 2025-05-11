@@ -27,6 +27,45 @@
             android:orientation="vertical"
             android:paddingTop="16dp" />
 
+        <!-- Filter Button -->
+        <Button
+            android:id="@+id/openFilterButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Filter Recipes" />
+
+        <!-- Filter Fields (Initially GONE, will be shown in dialog or toggled) -->
+        <LinearLayout
+            android:id="@+id/filterSection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:paddingTop="16dp">
+
+            <!-- Dietary Filter -->
+            <EditText
+                android:id="@+id/filterDiet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Dietary Preference (e.g. Vegan, Keto)" />
+
+            <!-- Max Calories Filter -->
+            <EditText
+                android:id="@+id/filterCalories"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Max Calories"
+                android:inputType="number" />
+
+            <!-- Apply Filters Button -->
+            <Button
+                android:id="@+id/applyFilterButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Apply Filters" />
+        </LinearLayout>
+
         <!-- Ingredients Input and Camera Button -->
         <RelativeLayout
             android:layout_width="match_parent"

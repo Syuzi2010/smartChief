@@ -23,6 +23,8 @@
             android:exported="true">
 
         </activity>
+        <activity android:name=".FilterActivity" />
+
         <activity
 
             android:name=".MainActivity"
