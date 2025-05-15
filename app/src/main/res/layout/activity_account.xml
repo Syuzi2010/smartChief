@@ -1,72 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/account_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
 
-    <!-- Scrollable Main Content -->
+    <!-- Scrollable Content -->
     <ScrollView
-        android:id="@+id/mainScrollView"
+        android:id="@+id/accountScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/bottomBar"
         android:fillViewport="true">
 
         <LinearLayout
+            android:id="@+id/accountContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:gravity="center"
-            android:padding="16dp">
+            android:padding="24dp"
+            android:gravity="center_horizontal">
 
-
-            <!-- Ingredients Container -->
-            <LinearLayout
-                android:id="@+id/ingredientsContainer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingTop="16dp" />
-
-
-            <!-- Ingredients Input and Camera Button -->
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="8dp">
-
-                <EditText
-                    android:id="@+id/ingredientsInput"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Enter ingredients"
-                    android:inputType="text"
-                    android:minHeight="48dp"
-                    android:padding="12dp"
-                    android:layout_marginEnd="50dp" />
-                <ImageButton
-                    android:id="@+id/btnCamera"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:contentDescription="Open Camera"
-                    android:src="@drawable/btn_camera" />
-            </RelativeLayout>
-            <!-- Find Dishes Button -->
-            <Button
-                android:id="@+id/findDishesButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Find Dishes" />
-
-            <!-- Results TextView -->
+            <!-- Email -->
             <TextView
-                android:id="@+id/resultTextView"
+                android:id="@+id/textViewEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Email"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="24dp" />
+
+            <!-- Favorites Button -->
+            <Button
+                android:id="@+id/btnFavorites"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="16dp"
-                android:text="Matching dishes will appear here" />
+                android:text="Favorites"
+                android:layout_marginBottom="16dp" />
 
+            <!-- Log Out Button -->
+            <Button
+                android:id="@+id/btnLogout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Log Out"
+                android:backgroundTint="#FF5252"
+                android:textColor="#FFFFFF"
+                android:layout_marginBottom="16dp" />
 
         </LinearLayout>
     </ScrollView>
@@ -79,7 +61,6 @@
         android:layout_alignParentBottom="true"
         android:orientation="horizontal"
         android:weightSum="3"
-
         android:padding="8dp">
 
         <ImageButton
@@ -93,8 +74,6 @@
             android:contentDescription="Home"
             android:scaleType="centerInside" />
 
-
-
         <ImageButton
             android:id="@+id/nav_filter"
             android:layout_width="48dp"
@@ -105,6 +84,7 @@
             android:src="@drawable/ic_filter"
             android:contentDescription="Filter"
             android:scaleType="centerInside" />
+
         <ImageButton
             android:id="@+id/nav_account"
             android:layout_width="48dp"

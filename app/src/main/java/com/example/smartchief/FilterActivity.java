@@ -1,11 +1,12 @@
 package com.example.smartchief;
 
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,10 +31,24 @@ public class FilterActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dietSpinner.setAdapter(adapter);
 
+        // Home navigation button
+        ImageButton homeButton = findViewById(R.id.nav_home);
+        homeButton.setOnClickListener(v -> {
+            Intent intent = new Intent(FilterActivity.this, MainActivity.class);
+            startActivity(intent);
+        });
+
+        // Account navigation button
+        ImageButton navAccount = findViewById(R.id.nav_account);
+        navAccount.setOnClickListener(v -> {
+            Intent intent = new Intent(FilterActivity.this, AccountActivity.class);
+            startActivity(intent);
+        });
+
+        // Apply filter button
         applyFilterButton.setOnClickListener(v -> {
             String selectedDiet = dietSpinner.getSelectedItem().toString();
 
-            // If "None" is selected, treat it as no filter
             if (selectedDiet.equals("None")) {
                 selectedDiet = null;
             }
@@ -45,4 +60,3 @@ public class FilterActivity extends AppCompatActivity {
         });
     }
 }
-
