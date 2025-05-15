@@ -58,14 +58,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Find Dishes" />
-
-            <!-- Results TextView -->
-            <TextView
-                android:id="@+id/resultTextView"
+            <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="16dp"
-                android:text="Matching dishes will appear here" />
+                android:paddingTop="16dp">
+
+                <LinearLayout
+                    android:id="@+id/resultsLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="8dp"/>
+            </ScrollView>
+
 
 
         </LinearLayout>

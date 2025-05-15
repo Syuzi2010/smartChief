@@ -34,7 +34,7 @@ package com.example.smartchief;
         this.maxCalories = maxCalories;
     }
 
-    public boolean matches(MainActivity.Recipe recipe) {
+    public boolean matches(Recipe recipe) {
         boolean matchesCalories = (minCalories == null || recipe.getCalories_per_serving() >= minCalories) &&
                 (maxCalories == null || recipe.getCalories_per_serving() <= maxCalories);
 

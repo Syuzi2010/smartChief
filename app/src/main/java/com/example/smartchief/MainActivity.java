@@ -3,12 +3,14 @@ package com.example.smartchief;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -40,11 +42,19 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int REQUEST_FILTER = 101;
     private String currentDietFilter = null;
+    LinearLayout resultsLayout;
+    FirebaseUser currentUser;
+    DatabaseReference favsRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main); // Set content view first
+        resultsLayout = findViewById(R.id.resultsLayout);
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        favsRef = FirebaseDatabase.getInstance().getReference("favorites")
+                .child(currentUser.getUid());
+
 
         // Now, find the bottomBar view
         View bottomBar = findViewById(R.id.bottomBar);
@@ -146,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(intent, REQUEST_FILTER);
     }
 
-    private void findMatchingDishes() {
+ private void findMatchingDishes() {
         List<Recipe> matches = new ArrayList<>();
 
         for (Recipe recipe : recipes) {
@@ -160,33 +170,90 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+        resultsLayout.removeAllViews(); // Clear previous results
+
         if (matches.isEmpty()) {
-            resultTextView.setText("No matching dishes found");
-        } else {
+            TextView noResult = new TextView(this);
+            noResult.setText("No matching dishes found");
+            resultsLayout.addView(noResult);
+            return;
+        }
+
+        for (Recipe recipe : matches) {
+            LinearLayout recipeLayout = new LinearLayout(this);
+            recipeLayout.setOrientation(LinearLayout.VERTICAL);
+            recipeLayout.setPadding(20, 20, 20, 20);
+
+            TextView recipeText = new TextView(this);
             StringBuilder sb = new StringBuilder();
-            for (Recipe recipe : matches) {
-                sb.append("🍲 Dish: ").append(recipe.getName()).append("<br>");
-                sb.append("Ingredients: ");
-                for (String ingredient : recipe.getIngredients()) {
-                    if (userIngredients.contains(ingredient.toLowerCase())) {
-                        sb.append(ingredient).append(", ");
-                    } else {
-                        sb.append("<font color='#FF0000'>").append(ingredient).append("</font>, ");
+            sb.append("🍲 Dish: ").append(recipe.getName()).append("\n");
+
+            sb.append("Ingredients: ");
+            for (String ingredient : recipe.getIngredients()) {
+                if (userIngredients.contains(ingredient.toLowerCase())) {
+                    sb.append(ingredient).append(", ");
+                } else {
+                    sb.append("[MISSING] ").append(ingredient).append(", ");
+                }
+            }
+            sb.append("\n");
+
+            sb.append("🥑 Dietary Info: ").append(recipe.getDietary_info()).append("\n");
+            sb.append("🔥 Calories: ").append(recipe.getCalories_per_serving()).append("\n\n");
+            sb.append("👩🍳 How to make:\n");
+            int i = 1;
+            for (String step : recipe.getRecipe_steps()) {
+                sb.append(i++).append(". ").append(step).append("\n");
+            }
+
+            recipeText.setText(sb.toString());
+
+            // Heart Button
+            ImageButton heartButton = new ImageButton(this);
+            heartButton.setLayoutParams(new LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT));
+            heartButton.setBackgroundColor(Color.TRANSPARENT);
+            heartButton.setImageResource(R.drawable.ic_heart_outline); // Default
+
+            // Check if this recipe is already favorited
+            favsRef.child(recipe.getName()).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        heartButton.setImageResource(R.drawable.ic_heart_filled);
                     }
                 }
-                sb.append("<br>");
-                sb.append("🥑 Dietary Info: ").append(recipe.getDietary_info()).append("<br>");
-                sb.append("🔥 Calories: ").append(recipe.getCalories_per_serving()).append("<br>");
-                sb.append("<br>👩🍳 How to make:<br>");
-                int i = 1;
-                for (String step : recipe.getRecipe_steps()) {
-                    sb.append(i++).append(". ").append(step).append("<br>");
-                }
-                sb.append("<br><br>");
-            }
-            resultTextView.setText(Html.fromHtml(sb.toString()));
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) { }
+            });
+
+            // Handle click
+            heartButton.setOnClickListener(v -> {
+                favsRef.child(recipe.getName()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()) {
+                            favsRef.child(recipe.getName()).removeValue();
+                            heartButton.setImageResource(R.drawable.ic_heart_outline);
+                        } else {
+                            favsRef.child(recipe.getName()).setValue(recipe);
+                            heartButton.setImageResource(R.drawable.ic_heart_filled);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) { }
+                });
+            });
+
+            recipeLayout.addView(recipeText);
+            recipeLayout.addView(heartButton);
+            resultsLayout.addView(recipeLayout);
         }
     }
+
 
     private void addIngredient(String ingredient) {
         userIngredients.add(ingredient.toLowerCase());
@@ -255,36 +322,36 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Recipe model
-    public static class Recipe {
-        private String name;
-        private String image_url;
-        private List<String> ingredients;
-        private int calories_per_serving;
-        private String dietary_info;
-        private List<String> recipe_steps;
-        private List<String> key_ingredients;
-
-        public Recipe() {}
-
-        public String getName() { return name; }
-        public void setName(String name) { this.name = name; }
-
-        public String getImage_url() { return image_url; }
-        public void setImage_url(String image_url) { this.image_url = image_url; }
-
-        public List<String> getIngredients() { return ingredients; }
-        public void setIngredients(List<String> ingredients) { this.ingredients = ingredients; }
-
-        public int getCalories_per_serving() { return calories_per_serving; }
-        public void setCalories_per_serving(int calories_per_serving) { this.calories_per_serving = calories_per_serving; }
-
-        public String getDietary_info() { return dietary_info; }
-        public void setDietary_info(String dietary_info) { this.dietary_info = dietary_info; }
-
-        public List<String> getRecipe_steps() { return recipe_steps; }
-        public void setRecipe_steps(List<String> recipe_steps) { this.recipe_steps = recipe_steps; }
-
-        public List<String> getKey_ingredients() { return key_ingredients; }
-        public void setKey_ingredients(List<String> key_ingredients) { this.key_ingredients = key_ingredients; }
-    }
+//    public static class Recipe {
+//        private String name;
+//        private String image_url;
+//        private List<String> ingredients;
+//        private int calories_per_serving;
+//        private String dietary_info;
+//        private List<String> recipe_steps;
+//        private List<String> key_ingredients;
+//
+//        public Recipe() {}
+//
+//        public String getName() { return name; }
+//        public void setName(String name) { this.name = name; }
+//
+//        public String getImage_url() { return image_url; }
+//        public void setImage_url(String image_url) { this.image_url = image_url; }
+//
+//        public List<String> getIngredients() { return ingredients; }
+//        public void setIngredients(List<String> ingredients) { this.ingredients = ingredients; }
+//
+//        public int getCalories_per_serving() { return calories_per_serving; }
+//        public void setCalories_per_serving(int calories_per_serving) { this.calories_per_serving = calories_per_serving; }
+//
+//        public String getDietary_info() { return dietary_info; }
+//        public void setDietary_info(String dietary_info) { this.dietary_info = dietary_info; }
+//
+//        public List<String> getRecipe_steps() { return recipe_steps; }
+//        public void setRecipe_steps(List<String> recipe_steps) { this.recipe_steps = recipe_steps; }
+//
+//        public List<String> getKey_ingredients() { return key_ingredients; }
+//        public void setKey_ingredients(List<String> key_ingredients) { this.key_ingredients = key_ingredients; }
+//    }
 }
