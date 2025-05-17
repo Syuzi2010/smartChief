@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.*;
+import com.google.firebase.database.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,16 +46,27 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout resultsLayout;
     FirebaseUser currentUser;
     DatabaseReference favsRef;
-
-    @Override
+ @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main); // Set content view first
+
         resultsLayout = findViewById(R.id.resultsLayout);
+     resultTextView = findViewById(R.id.resultTextView);
+
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (currentUser == null) {
+            // No user is logged in, redirect to LoginActivity
+            Intent intent = new Intent(MainActivity.this, Login.class);
+            startActivity(intent);
+            finish(); // Prevent user from returning to MainActivity
+            return;
+        }
+
+        // Safe to access getUid() now
         favsRef = FirebaseDatabase.getInstance().getReference("favorites")
                 .child(currentUser.getUid());
-
 
         // Now, find the bottomBar view
         View bottomBar = findViewById(R.id.bottomBar);
@@ -77,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
         setupFirebase();
         setupListeners();
     }
+
 
 
     private void initializeComponents() {
@@ -277,13 +290,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK && data != null && data.getExtras() != null) {
             Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
-            resultTextView.setText("Analyzing food...");
+
+            if (resultTextView != null) {
+                resultTextView.setText("Analyzing food...");
+            } else {
+                Log.e("MainActivity", "resultTextView is null!");
+            }
+
             btnCamera.setEnabled(false);
 
             ClarifaiHelper.recognizeFood(imageBitmap, new ClarifaiHelper.ClarifaiCallback() {
@@ -312,14 +330,13 @@ public class MainActivity extends AppCompatActivity {
                     });
                 }
             });
-        }
-
-        if (requestCode == REQUEST_FILTER && resultCode == RESULT_OK && data != null) {
+        } else if (requestCode == REQUEST_FILTER && resultCode == RESULT_OK && data != null) {
             String selectedDiet = data.getStringExtra("selectedDiet");
             currentDietFilter = selectedDiet;
             Toast.makeText(this, "Filter applied: " + (selectedDiet == null ? "None" : selectedDiet), Toast.LENGTH_SHORT).show();
         }
     }
+
 
     // Recipe model
 //    public static class Recipe {
