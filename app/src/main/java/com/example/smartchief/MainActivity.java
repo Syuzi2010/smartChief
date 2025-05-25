@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private Button logoutButton;
     private LinearLayout ingredientsContainer;
     private AutoCompleteTextView ingredientsInput;
-    private Button findDishesButton;
+
     private TextView resultTextView;
     private ImageButton btnCamera;
     private TextView textEmptyState;
@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         ingredientsContainer = findViewById(R.id.ingredientsContainer);
         ingredientsInput = findViewById(R.id.ingredientsInput);
         btnCamera = findViewById(R.id.btnCamera);
-        findDishesButton = findViewById(R.id.findDishesButton);
+
         resultTextView = findViewById(R.id.resultTextView);
 
         // Setup RecyclerView
@@ -187,7 +187,7 @@ public class MainActivity extends AppCompatActivity {
 
         btnCamera.setOnClickListener(v -> dispatchTakePictureIntent());
 
-        findDishesButton.setOnClickListener(v -> refreshMealList());
+
 
         ingredientsInput.setOnEditorActionListener((v, actionId, event) -> {
             String ingredient = ingredientsInput.getText().toString().trim();
@@ -362,9 +362,10 @@ public class MainActivity extends AppCompatActivity {
                 super(itemView);
                 nameTextView = itemView.findViewById(R.id.mealName);
                 ingredientsTextView = itemView.findViewById(R.id.mealIngredients);
-                recipe_stepsTextView = itemView.findViewById(R.id.mealRecipe_steps);
                 dietaryInfoTextView = itemView.findViewById(R.id.mealDietaryInfo);
                 caloriesTextView = itemView.findViewById(R.id.mealCalories);
+                recipe_stepsTextView = itemView.findViewById(R.id.mealRecipe_steps);
+
                 heartButton = itemView.findViewById(R.id.heartButton);
             }
 
