@@ -1,131 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="8dp">
 
-    <!-- Scrollable Main Content -->
-    <ScrollView
-        android:id="@+id/mainScrollView"
+    <!-- Input Section -->
+    <LinearLayout
+        android:id="@+id/inputSection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Available Ingredients"
+            android:textSize="16sp"
+            android:textStyle="bold"/>
+
+        <LinearLayout
+            android:id="@+id/ingredientsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="8dp"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="8dp">
+
+            <AutoCompleteTextView
+                android:id="@+id/ingredientsInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Add ingredient..."
+                android:layout_marginEnd="48dp"
+                android:imeOptions="actionDone"/>
+
+            <ImageButton
+                android:id="@+id/btnCamera"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/btn_camera"
+                android:contentDescription="Camera"/>
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/findDishesButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Find Dishes"
+            android:layout_marginTop="8dp"/>
+
+    </LinearLayout>
+
+    <!-- Results Section -->
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/resultsScroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/bottomBar"
-        android:fillViewport="true">
+        android:layout_below="@id/inputSection"
+        android:layout_above="@id/bottomBar"
+        android:visibility="gone">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:padding="16dp">
+            android:orientation="vertical">
 
-
-            <!-- Ingredients Container -->
-            <LinearLayout
-                android:id="@+id/ingredientsContainer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingTop="16dp" />
-
-
-            <!-- Ingredients Input and Camera Button -->
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="8dp">
-
-                <EditText
-                    android:id="@+id/ingredientsInput"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Enter ingredients"
-                    android:inputType="text"
-                    android:minHeight="48dp"
-                    android:padding="12dp"
-                    android:layout_marginEnd="50dp" />
-                <ImageButton
-                    android:id="@+id/btnCamera"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:contentDescription="Open Camera"
-                    android:src="@drawable/btn_camera" />
-            </RelativeLayout>
-            <!-- Find Dishes Button -->
-            <Button
-                android:id="@+id/findDishesButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Find Dishes" />
             <TextView
                 android:id="@+id/resultTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Result will appear here" />
-
-            <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="16dp">
+                android:padding="8dp"/>
+            <!-- Updated steps preview TextView -->
 
-                <LinearLayout
-                    android:id="@+id/resultsLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="8dp"/>
-            </ScrollView>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
-
-
+            <TextView
+                android:id="@+id/textEmptyState"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="No meals found"
+                android:visibility="gone"
+                android:gravity="center"
+                android:padding="16dp"/>
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
-    <!-- Bottom Navigation Bar -->
+    <!-- Bottom Navigation -->
     <LinearLayout
         android:id="@+id/bottomBar"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal"
-        android:weightSum="3"
+        android:background="@color/surface_white"
+        android:elevation="8dp">
 
-        android:padding="8dp">
-
-        <ImageButton
-            android:id="@+id/nav_home"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_weight="1"
-            android:background="?android:attr/selectableItemBackground"
-            android:padding="12dp"
-            android:src="@drawable/ic_home"
-            android:contentDescription="Home"
-            android:scaleType="centerInside" />
-
-
-
+        <!-- Add your bottom navigation items here -->
         <ImageButton
             android:id="@+id/nav_filter"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="?android:attr/selectableItemBackground"
-            android:padding="12dp"
-            android:src="@drawable/ic_filter"
-            android:contentDescription="Filter"
-            android:scaleType="centerInside" />
+            android:src="@drawable/ic_filter"/>
+
         <ImageButton
             android:id="@+id/nav_account"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="?android:attr/selectableItemBackground"
-            android:padding="12dp"
-            android:src="@drawable/ic_account"
-            android:contentDescription="Account"
-            android:scaleType="centerInside" />
+            android:src="@drawable/ic_account"/>
     </LinearLayout>
-
 </RelativeLayout>

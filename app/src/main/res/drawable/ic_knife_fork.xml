@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:width="24dp"
+        android:height="24dp"
+        android:viewportWidth="24"
+        android:viewportHeight="24"
+        android:tint="@color/primary_dark">
+        <group>
+            <!-- Fork -->
+            <path
+                android:fillColor="@android:color/white"
+                android:pathData="M5.5,2L5.5,9.5L3,9.5L3,2L1,2L1,15.5C1,17.4 2.6,19 4.5,19L5.5,19L5.5,22L7.5,22L7.5,19L8.5,19C10.4,19 12,17.4 12,15.5L12,2L10,2L10,9.5L7.5,9.5L7.5,2L5.5,2z"/>
+            <!-- Knife -->
+            <path
+                android:fillColor="@android:color/white"
+                android:pathData="M15.5,2L15.5,19L17.5,19L17.5,2L15.5,2z"/>
+            <path
+                android:fillColor="@android:color/white"
+                android:pathData="M19.5,2L14,19L16,19L21,2L19.5,2z"/>
+        </group>
+    </vector>
+</selector>

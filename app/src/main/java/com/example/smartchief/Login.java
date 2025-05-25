@@ -177,16 +177,9 @@ public class Login extends AppCompatActivity {
         super.onStart();
         Log.d(TAG, "onStart: Checking if user is logged in");
 
-//        FirebaseUser currentUser = mAuth.getCurrentUser();
-//        if (currentUser != null) {
-//            Log.d(TAG, "User already logged in, redirecting to MainActivity");
-//            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-//            startActivity(intent);
-//            finish();
-//        }
     }
 
-    @Override
+  @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         WindowCompat.setDecorFitsSystemWindows(getWindow(), false); // optional
@@ -201,6 +194,7 @@ public class Login extends AppCompatActivity {
         buttonLogin = findViewById(R.id.btn_login);
         textView = findViewById(R.id.registerNow);
         showHidePassword = findViewById(R.id.show_hide_password);
+        Button buttonAutoLogin = findViewById(R.id.btn_auto_login);
 
         textView.setOnClickListener(v -> {
             Log.d(TAG, "Register Now clicked");
@@ -255,5 +249,18 @@ public class Login extends AppCompatActivity {
                         }
                     });
         });
+
+        // ✅ Auto-login button logic
+        buttonAutoLogin.setOnClickListener(v -> {
+            String autoEmail = "individualproject2025@gmail.com";
+            String autoPassword = "Samsung2025";
+
+            editTextEmail.setText(autoEmail);
+            editTextPassword.setText(autoPassword);
+
+            // Simulate login click
+            buttonLogin.performClick();
+        });
     }
+
 }

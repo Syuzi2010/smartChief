@@ -1,5 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <!-- Brand Colors -->
+    <color name="primaryColor">#B6452C</color>
+    <color name="primary_dark">#5D4037</color>
+    <color name="secondaryColor">#8D6E63</color>
+    <color name="utensil_tint">#6D4C41</color>
+
+    <!-- Text Colors -->
+    <color name="text_primary">#3E2723</color>
+    <color name="text_secondary">#795548</color>
+    <color name="text_hint">#A1887F</color>
+    <color name="text_on_primary">#FFFFFF</color>
+
+    <!-- Backgrounds & Surfaces -->
+    <color name="background_light">#FFF9F5</color>
+    <color name="background_primary">#FFF8F5</color>
+    <color name="surface_white">#FFFFFF</color>
+    <color name="surface_stroke">#E0D7D0</color>
+
+    <!-- UI Elements -->
+    <color name="button_primary">#8D6E63</color>
+    <color name="button_primary_pressed">#6D4C41</color>
+    <color name="button_secondary">#4ECDC4</color>
+    <color name="button_secondary_pressed">#3DA89F</color>
+    <color name="kitchen_background">#FFF9F5</color>
+
+    <!-- Status Colors -->
+    <color name="warningColor">#FF7675</color>
+    <color name="success_green">#4CAF50</color>
+    <color name="info_blue">#2196F3</color>
+
+    <!-- Chips & Tags -->
+    <color name="dietary_chip_background">#FFE5E5</color>
+    <color name="calorie_chip_background">#E5F9F7</color>
 </resources>
